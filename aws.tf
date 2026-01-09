@@ -407,40 +407,6 @@ module "master_autoscaling_group" {
   tag = []
 }
 
-
-/*
-# Allocate elastic IP
-
-module "eip" {
-  source = "./modules/aws_eip"
-}
-output "public_ip" {
-  value = "${module.eip.public_ip}"
-}
-output "private_ip" {
-  value = "{module.eip.private_ip}"
-}
-
-#  Associate EIP to instance
-
-module "eip_association" {
-  source = "./modules/aws_eip_association"
-  instance_id = "${module.instance.id}"
-  allocation_id = "${module.eip.id}"
-}
-*/
-
-/*
-# Create Volume
-
-module "aws_ebs_volume" {
-  availability_zone = "${module.cluster.zone}"
-  type = "${module.cluster.master_disk_type}"
-  size = "${module.cluster.master_disk_size}"
-  tags = "${module.tags.volume}"
-}
-*/
-
 /* Master Route Table */
 module "master_route_table" {
   source = "./modules/aws_route_table"
@@ -462,27 +428,3 @@ module "master_route" {
   destination_cidr_block = "0.0.0.0/0"
   route_table_id = "${module.master_route_table.id}"
 }
-
-/* SSH to Master 
-module "ssh" {
-  source = "./modules/util_ssh"
-  type = "ssh"
-  private_key = "${file(module.cluster.ssh_key["key_file"])}"
-  source_file = "./kubeinstall/setup_master"
-  destination = "${join("",list("/home/",module.cluster.ssh_user,"/setup_master"))}"
-  user = "${module.cluster.ssh_user}"
-  host = "${module.eip.public_ip}"
-}
-*/
-
-/* Remote execute kubernetes master install */
-#module "remote_exec" {
-#  source = "./modules/util_remote_exec"
-#  type = "ssh"
-#  private_key = "${file(module.cluster.ssh_key["key_file"])}"
-#  source_file = "./kubeinstall/setup_master"
-#  destination = "${join("",list("/home/",module.cluster.ssh_user,"/setup_master"))}"
-#  user = "${module.cluster.ssh_user}"
-#  host = "${module.eip.public_ip}"
-#  depends_on = ["module.instance"]
-#}
