@@ -305,5 +305,3 @@ class discovery(object):
                     self.master = self.find_master_ip(master_ips)
                     break
         self.monitor_master()
-
-#d=discovery('172.20.0.0/28')
