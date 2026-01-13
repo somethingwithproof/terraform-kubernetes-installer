@@ -1,8 +1,11 @@
 # Terraform Kubernetes Installer
 
-Terraform configuration for deploying Kubernetes clusters on AWS.
+OpenTofu configuration for deploying Kubernetes clusters on AWS.
 
-[![Terraform CI](https://github.com/thomasvincent/terraform-kubernetes-installer/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/thomasvincent/terraform-kubernetes-installer/actions/workflows/terraform-ci.yml)
+[![OpenTofu CI](https://github.com/thomasvincent/terraform-kubernetes-installer/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/thomasvincent/terraform-kubernetes-installer/actions/workflows/terraform-ci.yml)
+[![OpenTofu](https://img.shields.io/badge/OpenTofu-%3E%3D1.6.0-blue)](https://opentofu.org/)
+
+> **Note**: This module has been migrated from Terraform to [OpenTofu](https://opentofu.org/), the open-source fork of Terraform. OpenTofu is a drop-in replacement and is fully compatible with existing Terraform configurations.
 
 ## Status
 
@@ -27,16 +30,16 @@ This configuration deploys:
 
 ## Prerequisites
 
-- Terraform >= 1.0.0
+- OpenTofu >= 1.6.0 (or Terraform >= 1.0.0)
 - AWS CLI configured with appropriate credentials
 - SSH key pair generated in `init/` directory
 
 ## Usage
 
 1. Configure your variables in a `terraform.tfvars` file
-2. Initialize Terraform: `terraform init`
-3. Plan the deployment: `terraform plan`
-4. Apply: `terraform apply`
+2. Initialize OpenTofu: `tofu init`
+3. Plan the deployment: `tofu plan`
+4. Apply: `tofu apply`
 
 ## Remote State (Recommended)
 
