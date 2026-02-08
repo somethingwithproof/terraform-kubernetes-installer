@@ -23,6 +23,7 @@ resource "aws_instance" "aws_instance" {
     volume_type = "gp2"
     volume_size = "8"
     delete_on_termination = true
+    encrypted   = true
   }
   user_data = "${var.user_data}"
   tags = "${var.tags}"  
