@@ -2,41 +2,109 @@
    "Version":"2012-10-17",
    "Statement":[
       {
+         "Sid":"EC2ReadAndVolume",
          "Effect":"Allow",
          "Action":[
-            "ec2:Describe*",
+            "ec2:DescribeInstances",
+            "ec2:DescribeRegions",
+            "ec2:DescribeRouteTables",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeVolumes",
+            "ec2:DescribeVpcs",
+            "ec2:DescribeNetworkInterfaces",
+            "ec2:DescribeAvailabilityZones",
+            "ec2:DescribeAddresses",
+            "ec2:DescribeTags",
+            "ec2:CreateVolume",
+            "ec2:CreateTags",
             "ec2:AttachVolume",
             "ec2:DetachVolume",
-            "ec2:"
+            "ec2:DeleteVolume",
+            "ec2:CreateRoute",
+            "ec2:DeleteRoute",
+            "ec2:CreateSecurityGroup",
+            "ec2:DeleteSecurityGroup",
+            "ec2:AuthorizeSecurityGroupIngress",
+            "ec2:RevokeSecurityGroupIngress",
+            "ec2:ModifyInstanceAttribute"
          ],
-         "Resource":""
+         "Resource":"*",
+         "Condition":{
+            "StringEquals":{
+               "ec2:ResourceTag/KubernetesCluster":"${cluster_name}"
+            }
+         }
       },
       {
+         "Sid":"EC2DescribeAll",
          "Effect":"Allow",
          "Action":[
-            "elasticloadbalancing:Describe*",
-            "elasticloadbalancing:"
+            "ec2:DescribeInstances",
+            "ec2:DescribeRegions",
+            "ec2:DescribeRouteTables",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeVolumes",
+            "ec2:DescribeVpcs",
+            "ec2:DescribeNetworkInterfaces",
+            "ec2:DescribeAvailabilityZones",
+            "ec2:DescribeAddresses",
+            "ec2:DescribeTags"
          ],
-         "Resource":""
+         "Resource":"*"
       },
       {
+         "Sid":"ELBManagement",
          "Effect":"Allow",
          "Action":[
-            "route53:List*",
-            "route53:Get*",
-            "route53:"
+            "elasticloadbalancing:DescribeLoadBalancers",
+            "elasticloadbalancing:DescribeLoadBalancerAttributes",
+            "elasticloadbalancing:DescribeListeners",
+            "elasticloadbalancing:DescribeTargetGroups",
+            "elasticloadbalancing:DescribeTargetHealth",
+            "elasticloadbalancing:DescribeRules",
+            "elasticloadbalancing:CreateLoadBalancer",
+            "elasticloadbalancing:CreateTargetGroup",
+            "elasticloadbalancing:CreateListener",
+            "elasticloadbalancing:DeleteLoadBalancer",
+            "elasticloadbalancing:DeleteTargetGroup",
+            "elasticloadbalancing:ModifyLoadBalancerAttributes",
+            "elasticloadbalancing:ModifyTargetGroup",
+            "elasticloadbalancing:RegisterTargets",
+            "elasticloadbalancing:DeregisterTargets",
+            "elasticloadbalancing:AddTags",
+            "elasticloadbalancing:RemoveTags",
+            "elasticloadbalancing:ConfigureHealthCheck",
+            "elasticloadbalancing:SetLoadBalancerPoliciesOfListener"
          ],
-         "Resource":""
+         "Resource":"*"
       },
       {
+         "Sid":"Route53Management",
          "Effect":"Allow",
          "Action":[
-            "s3:List*",
-            "s3:Get*",
-            "s3:"
+            "route53:ListHostedZones",
+            "route53:ListResourceRecordSets",
+            "route53:GetHostedZone",
+            "route53:ChangeResourceRecordSets",
+            "route53:ListHostedZonesByName"
+         ],
+         "Resource":"*"
+      },
+      {
+         "Sid":"S3KubernetesBucket",
+         "Effect":"Allow",
+         "Action":[
+            "s3:ListBucket",
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject",
+            "s3:GetBucketLocation"
          ],
          "Resource":[
-            "arn:aws:s3:::kubernetes-"
+            "arn:aws:s3:::kubernetes-*",
+            "arn:aws:s3:::kubernetes-*/*"
          ]
       }
    ]

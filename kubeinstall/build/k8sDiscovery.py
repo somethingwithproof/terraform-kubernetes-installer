@@ -21,11 +21,14 @@ class discovery(object):
             self.ca_certs = '/etc/kubernetes/pki/ca.crt'
         else:
             self.ca_certs = ca_certs
-# urllib3.exceptions.SSLError: hostname '172.20.0.13' doesn't match 'kubernetes'
-# Not using certificates until there is an out-of-box support to use the certs because of the above error.
-#        self.http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED',ca_certs=self.ca_certs)
-        self.http = urllib3.PoolManager(10,cert_reqs='CERT_NONE')
-        urllib3.disable_warnings()
+        # Use TLS certificate verification with the cluster CA.
+        # assert_hostname=False allows IP-based connections while still verifying the cert chain.
+        self.http = urllib3.PoolManager(
+            10,
+            cert_reqs='CERT_REQUIRED',
+            ca_certs=self.ca_certs,
+            assert_hostname=False
+        )
 
         self.cidr = cidr
         self.healthz = healthz

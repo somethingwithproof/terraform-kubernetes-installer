@@ -2,26 +2,51 @@
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Sid": "S3KubernetesBucket",
       "Effect": "Allow",
-      "Action": ["s3:*"],
-      "Resource": ["arn:aws:s3:::kubernetes-*"]
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetObject",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::kubernetes-*",
+        "arn:aws:s3:::kubernetes-*/*"
+      ]
     },
     {
+      "Sid": "EC2ReadOnly",
       "Effect": "Allow",
-      "Action": ["ec2:Describe*"],
+      "Action": [
+        "ec2:DescribeInstances",
+        "ec2:DescribeRegions",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeTags"
+      ],
       "Resource": "*"
     },
     {
+      "Sid": "EC2VolumeOps",
       "Effect": "Allow",
-      "Action": ["ec2:AttachVolume", "ec2:DetachVolume"],
-      "Resource": "*"
+      "Action": [
+        "ec2:AttachVolume",
+        "ec2:DetachVolume"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:ResourceTag/KubernetesCluster": "${cluster_name}"
+        }
+      }
     },
     {
-      "Effect": "Allow",
-      "Action": ["route53:*"],
-      "Resource": ["*"]
-    },
-    {
+      "Sid": "ECRReadOnly",
       "Effect": "Allow",
       "Action": [
         "ecr:GetAuthorizationToken",
