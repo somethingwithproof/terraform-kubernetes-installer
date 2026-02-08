@@ -31,7 +31,8 @@ deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF"
     sudo apt-get update
     sudo apt-get install -y docker-engine
-    sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+    # Pin Kubernetes components to a specific version for reproducibility
+    sudo apt-get install -y kubelet=1.28.* kubeadm=1.28.* kubectl=1.28.* kubernetes-cni
 
 #Additional packages
 
@@ -41,9 +42,10 @@ EOF"
 }
 
 kubeadm_init(){
-    sudo kubeadm init --token $(sudo kubeadm token generate) 
+    sudo kubeadm init --token $(sudo kubeadm token generate)
     export KUBECONFIG=/etc/kubernetes/admin.conf
-    sudo chmod a+r /etc/kubernetes/admin.conf
+    # SECURITY: Restrict admin.conf to root only - do not make world-readable
+    sudo chmod 600 /etc/kubernetes/admin.conf
 }
 
 weave_kube(){
@@ -62,8 +64,9 @@ weave_standalone(){
 copy_scripts(){
     local -r master_subnet=$1
     sudo mkdir -p "${SCRIPT_MOUNT_PATH}/config"
-    sudo docker pull cheburakshu/terrakube:latest
-    sudo docker run --rm -v "$SCRIPT_MOUNT_PATH":/mnt/kubernetes cheburakshu/terrakube cp -Rfv /kubernetes/. /mnt/kubernetes
+    # Pin container image to a specific version for reproducibility and security
+    sudo docker pull cheburakshu/terrakube:v1.0.0
+    sudo docker run --rm -v "$SCRIPT_MOUNT_PATH":/mnt/kubernetes cheburakshu/terrakube:v1.0.0 cp -Rfv /kubernetes/. /mnt/kubernetes
     sudo chmod -R a+x $SCRIPT_MOUNT_PATH
 }
 

@@ -1,5 +1,5 @@
-# Pick the latest image
-FROM busybox:latest
+# Pin to a specific version digest for reproducibility and security
+FROM busybox:1.36.1@sha256:6d9ac9237a84afe1516540f40a0fafdc86859b2141954b4d643af7066d598b74
 
 # Define root directory
 ENV ROOT=/kubernetes

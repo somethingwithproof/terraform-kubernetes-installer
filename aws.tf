@@ -13,7 +13,10 @@ variable "vpc" {type="map"}
 variable "iam_role" {type="map"}
 variable "iam_role_policy" {type="map"}
 variable "subnet" {type="map"}
-variable "security_group_ingress" {type="map"}
+variable "security_group_ingress" {
+  type = "map"
+  description = "SECURITY: Ingress CIDR blocks for security groups. Never use 0.0.0.0/0 in production."
+}
 variable "security_group_egress" {type="map"}
 variable "ssh_key" {type = "map"}
 variable "ssh_user" {}
