@@ -50,9 +50,9 @@ master_ip_range = "10.246.0.0/24"
 # In-bound Traffic Controls (Security Group Ingress)
 
 security_group_ingress = {
-  master.ssh = ["0.0.0.0/0"]
-  minion.ssh = ["0.0.0.0/0"]
-  master.https = ["0.0.0.0/0"]
+  master.ssh = ["10.0.0.0/8"]
+  minion.ssh = ["10.0.0.0/8"]
+  master.https = ["10.0.0.0/8"]
 }
 
 # Out-bound Traffic Controls (Security Group Egress)
@@ -124,5 +124,5 @@ startup_volume = {
   volume_size = "8"
   iops = "0"
   delete_on_termination = true
-  encrypted = false
+  encrypted = true
 }
