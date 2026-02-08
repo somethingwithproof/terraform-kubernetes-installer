@@ -43,7 +43,7 @@ EOF"
 kubeadm_init(){
     sudo kubeadm init --token $(sudo kubeadm token generate) 
     export KUBECONFIG=/etc/kubernetes/admin.conf
-    sudo chmod a+r /etc/kubernetes/admin.conf
+    sudo chmod 600 /etc/kubernetes/admin.conf
 }
 
 weave_kube(){

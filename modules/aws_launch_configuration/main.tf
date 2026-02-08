@@ -22,5 +22,6 @@ resource "aws_launch_configuration" "aws_launch_configuration" {
     volume_size           = 8
     volume_type           = "gp2"
     delete_on_termination = true
+    encrypted             = true
   }
 }

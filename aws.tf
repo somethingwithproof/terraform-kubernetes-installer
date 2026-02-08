@@ -227,6 +227,11 @@ module "minion_security_group" {
 
 /* Authorize Security group ingress */
 
+# TODO(security): H5 - Inter-node security groups allow all traffic on ports 0-65535.
+# These rules should be tightened to only the ports Kubernetes requires
+# (e.g., 6443, 2379-2380, 10250-10252, 30000-32767) but changing this
+# risks breaking cluster communication. Requires careful testing.
+
 # Master can talk to master
 
 module "mas_to_mas_security_group_rule" {
@@ -389,7 +394,7 @@ module "master_launch_configuration" {
   instance_type = "${module.cluster.master_size}"
   key_name = "${module.key_pair.key_name}"
   security_groups = ["${module.master_security_group.id}"]
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   root_device_name = "${module.ami.root_device_name}"
   user_data = "${join(" ",list(file("kubeinstall/setup.sh"),"main master",module.cluster.subnet["master.cidr_block"],";"))}"
   #user_data = "${file("kubeinstall/setup_master.sh")}"
