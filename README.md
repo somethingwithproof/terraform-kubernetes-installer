@@ -8,16 +8,9 @@ Terraform configuration for deploying Kubernetes clusters on AWS.
 
 **Note:** This repository contains legacy Terraform code (Terraform 0.11 syntax). A modernization effort is in progress.
 
-## Recent Updates
-
-- Added CI/CD pipeline with Terraform validation, TFLint, and tfsec
-- Added `versions.tf` with provider version constraints
-- Removed committed state files from VCS
-- Added `.gitignore` for Terraform artifacts
-
 ## Architecture
 
-This configuration deploys:
+Deploys a Kubernetes cluster on AWS with the following components:
 
 - VPC with public subnets
 - IAM roles and instance profiles for masters and minions
@@ -28,15 +21,64 @@ This configuration deploys:
 ## Prerequisites
 
 - Terraform >= 1.0.0
+- AWS Provider configured
 - AWS CLI configured with appropriate credentials
 - SSH key pair generated in `init/` directory
 
-## Usage
+## Quick Start
 
-1. Configure your variables in a `terraform.tfvars` file
-2. Initialize Terraform: `terraform init`
-3. Plan the deployment: `terraform plan`
-4. Apply: `terraform apply`
+```bash
+# Initialize Terraform
+terraform init
+
+# Review planned changes
+terraform plan
+
+# Apply configuration
+terraform apply
+```
+
+## Module Structure
+
+- `aws.tf` - Main AWS resource definitions
+- `versions.tf` - Provider version constraints
+- `modules/` - Reusable Terraform modules for AWS resources
+- `init/` - Initialization scripts and SSH key generation
+- `templates/` - Configuration templates
+- `config/` - Cluster configuration files
+
+## Variables
+
+Configure your variables in a `terraform.tfvars` file. See individual module directories for available variables.
+
+## Outputs
+
+See individual module `outputs.tf` files for available outputs.
+
+## Development
+
+Format code:
+```bash
+terraform fmt -recursive
+```
+
+Validate configuration:
+```bash
+terraform validate
+```
+
+Run linting:
+```bash
+tflint
+```
+
+## Testing
+
+Run CI/CD validation:
+```bash
+# Runs terraform validate, TFLint, and tfsec
+.github/workflows/terraform-ci.yml
+```
 
 ## Remote State (Recommended)
 
@@ -53,6 +95,13 @@ terraform {
   }
 }
 ```
+
+## Recent Updates
+
+- Added CI/CD pipeline with Terraform validation, TFLint, and tfsec
+- Added `versions.tf` with provider version constraints
+- Removed committed state files from VCS
+- Added `.gitignore` for Terraform artifacts
 
 ## Modernization Roadmap
 
