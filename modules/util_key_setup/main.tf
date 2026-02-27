@@ -2,7 +2,7 @@ variable "key_file" {}
 
 resource "null_resource" "null_resource" {
   triggers {}
-  
+
   provisioner "local-exec" {
     command = <<EOF
 
