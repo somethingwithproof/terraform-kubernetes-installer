@@ -12,6 +12,17 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "aquasecurity/tfsec-action"
+        versions:
+          - "*"
+      - dependency-name: "bridgecrewio/checkov-action"
+        versions:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
